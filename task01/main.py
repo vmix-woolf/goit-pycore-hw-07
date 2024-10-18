@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # Search specific phone number for John's record
     found_phone = john.find_phone("5555555555")
-    print(f"{john.name}: {found_phone}")  # Виведення: 5555555555
+    print(f"{john.name}: {found_phone}")  # Output: 5555555555
 
     # Delete phone number for John
     john.remove_phone("5555555555")
