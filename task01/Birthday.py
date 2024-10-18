@@ -7,9 +7,9 @@ class Birthday(Field):
     def __init__(self, value):
         super().__init__(value)
         try:
-            # Додайте перевірку коректності даних
+            # add data correctness validation
             if bool(re.match(r'\d{2}\.\d{2}\.\d{4}', value)):
-                # та перетворіть рядок на об'єкт datetime
+                #  and convert the string to a datetime object
                 self.value = datetime.strptime(value, '%d.%m.%Y')
             else:
                 raise FormatError()
@@ -18,4 +18,4 @@ class Birthday(Field):
             exit()
         except ValueError:
             print(f"Invalid date format. Use correct DD, MM and YYYY")
-            exit()
+            exit()    

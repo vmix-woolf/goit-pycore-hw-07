@@ -1,10 +1,12 @@
 from collections import UserDict
+from datetime import datetime as dt, timedelta
+
 
 class AddressBook(UserDict):
     current_id = 1
 
-    def add_record(self, record_name):
-        self.data[AddressBook.current_id] = record_name
+    def add_record(self, record):
+        self.data[AddressBook.current_id] =  record
         AddressBook.current_id += 1
 
     
@@ -16,4 +18,3 @@ class AddressBook(UserDict):
     
     def delete(self, user_name):
         {key: value for key, value in self.data.items() if value.name.value != user_name}
-   

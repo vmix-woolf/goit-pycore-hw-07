@@ -41,7 +41,10 @@ class Record:
 
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, "\
-            f"phones: {'; '.join(p for p in self.phones)}, "\
-            f"birthday: {self.birthday.value.date()}" if self.birthday else ''
-
+        if self.birthday is not None:
+            return f"Contact name: {self.name.value}, " + \
+                f"phones: {'; '.join(p for p in self.phones)}, " + \
+                f"birthday: {self.birthday.value.date()}" 
+        else: 
+            return f"Contact name: {self.name.value}, " + \
+                f"phones: {'; '.join(p for p in self.phones)}"
