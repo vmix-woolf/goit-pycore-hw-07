@@ -29,14 +29,13 @@ def main():
             try:
                 print(add_contact(args, book))
             except ExactDigitException:
-                # print(f'Phone should consist of exactly 3 digits!')
                 continue
         elif command == "change":
             print(change_contact(args, book))
         elif command == "phone":
             print(show_phone(args, book))
         elif command == "all":
-            print(show_all(book))
+            show_all(book)
         elif command == "add-birthday":
             add_birthday(args, book)
         elif command == "show-birthday":

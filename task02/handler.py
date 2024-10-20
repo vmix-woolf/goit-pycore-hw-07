@@ -1,28 +1,36 @@
 from decorations import input_error
 from AddressBook import AddressBook
 from Record import Record
+from Phone import Phone
 from Exceptions import ExactDigitException
 
 @input_error
 def add_contact(args, book):
     name, phone_number, *_ = args
     record = book.find(name)
+    # if such name is kept
     message = "Contact updated."
     
+    # if such name is new
     if record is None:
-        record = Record(name)
-        book.add_record(record)
-        message = "Contact added."
-    
-    if phone_number:
         try:
-            record.add_phone(phone_number)
-            return message
+            if Phone.validation_phone(phone_number):
+                record = Record(name)
+                book.add_record(record)
+                record.add_phone(phone_number)
+                message = "Contact added."
+            else:
+                raise ExactDigitException()
         except ExactDigitException:
-            AddressBook.delete(name)
             return f'Phone should consist of exactly 3 digits!'
-            
-
+    else : #  continue if such name is already kept
+        if phone_number:
+            book.add_record(record)
+            record.add_phone(phone_number)
+        else:
+            raise ValueError
+        
+    return message
 
 @input_error
 def change_contact(args, book):
@@ -68,4 +76,4 @@ def show_all(book):
     else:
         for _, item in book.items():
             if item:
-                return f"{item}"
+                print(f"{item}")
