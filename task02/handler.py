@@ -2,8 +2,17 @@ from decorations import input_error
 from AddressBook import AddressBook
 from Record import Record
 from Phone import Phone
-from Exceptions import ExactDigitException, NoSuchPhoneNumberError, ContactInBookError
-import constants
+from Birthday import Birthday
+from Exceptions import (
+    ExactDigitException, 
+    NoSuchPhoneNumberError, 
+    ContactInBookError,
+    InvalidDateFormatError,
+    InvalidDateValueError,
+    NoSuchContactException,
+    ContactHasBirthdayException
+)
+import re, constants
 
 @input_error
 def add_contact(args, book: AddressBook):
@@ -26,7 +35,6 @@ def add_contact(args, book: AddressBook):
     except ContactInBookError:
         return constants.CONTACT_IS_IN_BOOK
     
-        
     return message
 
 
@@ -69,11 +77,41 @@ def show_phone(args, book):
 
 @input_error
 def add_birthday(args, book):
-    pass
+    name, date_of_birth, *_ = args
+    record = book.find(name)
+    try:
+        if record.birthday is None:  # if such name is new
+            if Birthday.validation_birthday(date_of_birth):
+                record.add_birthday(date_of_birth)
+                return "Contact updated1"
+            else:
+                raise ValueError()
+        else:
+            raise ContactHasBirthdayException()
+    except InvalidDateFormatError:
+        return constants.INVALID_FORMAT_ERROR
+    except InvalidDateValueError:
+        return constants.INVALID_VALUE_ERROR
+    except ContactHasBirthdayException:
+        return constants.CONTACT_HAS_BIRTHDAY
+
 
 @input_error
 def show_birthday(args, book):
-    pass
+    name, *_ = args
+    record = book.find(name)
+    try:
+        if record is not None:
+            if record.name.value == name:
+                return f"{record.name.value} has the following birthday: {record.birthday.value}"
+            else:
+                raise NoSuchContactException()
+        else:
+            raise IndexError
+    except IndexError:
+        return constants.NO_SUCH_CONTACT
+    except NoSuchContactException:
+        return constants.NO_SUCH_CONTACT
 
 @input_error
 def birthdays(args, book):

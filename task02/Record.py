@@ -2,10 +2,11 @@ from Name import Name
 from Phone import Phone
 from Birthday import Birthday
 from Exceptions import ExactDigitException
+from datetime import datetime
 
 class Record:
-    def __init__(self, record_name):
-        self.name = Name(record_name)
+    def __init__(self, name):
+        self.name = Name(name)
         self.phones = []
         self.birthday = None
 
@@ -43,9 +44,10 @@ class Record:
 
     def __str__(self):
         if self.birthday is not None:
+            print(self.birthday.value)
             return f"Contact name: {self.name.value}, " + \
                 f"phones: {'; '.join(p for p in self.phones)}, " + \
-                f"birthday: {self.birthday.value.date()}" 
+                f"birthday: {datetime.strptime(self.birthday.value, '%d.%m.%Y').strftime('%d.%m.%Y')}" 
         else: 
             return f"Contact name: {self.name.value}, " + \
                 f"phones: {'; '.join(p for p in self.phones)}"
