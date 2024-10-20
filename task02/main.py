@@ -7,6 +7,7 @@ from handler import (
     show_birthday,
     birthdays
 )
+import constants
 from parser import parse_input
 from AddressBook import AddressBook
 from Exceptions import ExactDigitException
@@ -14,7 +15,7 @@ from Exceptions import ExactDigitException
 
 def main():
     book = AddressBook()
-    print("Welcome to the assistant bot!")
+    print(f"{constants.WELCOME_MESSAGE}")
     
     while True:
         user_input = input("Enter a command: ")

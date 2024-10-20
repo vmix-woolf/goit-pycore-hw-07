@@ -6,3 +6,9 @@ class FormatError(Exception):
 
 class PhoneFormatError(Exception):
     pass
+
+class NoSuchPhoneNumberError(Exception):
+    pass
+
+class ContactInBookError(Exception):
+    pass

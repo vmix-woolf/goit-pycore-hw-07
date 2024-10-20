@@ -2,48 +2,58 @@ from decorations import input_error
 from AddressBook import AddressBook
 from Record import Record
 from Phone import Phone
-from Exceptions import ExactDigitException
+from Exceptions import ExactDigitException, NoSuchPhoneNumberError, ContactInBookError
+import constants
 
 @input_error
-def add_contact(args, book):
+def add_contact(args, book: AddressBook):
     name, phone_number, *_ = args
     record = book.find(name)
-    # if such name is kept
-    message = "Contact updated."
     
-    # if such name is new
-    if record is None:
-        try:
+    try:
+        if record is None:  # if such name is new
             if Phone.validation_phone(phone_number):
                 record = Record(name)
                 book.add_record(record)
                 record.add_phone(phone_number)
-                message = "Contact added."
+                message = constants.CONTACT_ADDED
             else:
                 raise ExactDigitException()
-        except ExactDigitException:
-            return f'Phone should consist of exactly 3 digits!'
-    else : #  continue if such name is already kept
-        if phone_number:
-            book.add_record(record)
-            record.add_phone(phone_number)
-        else:
-            raise ValueError
+        else :  # continue if such name is already kept
+            raise ContactInBookError()
+    except ExactDigitException:
+        return constants.DIGITS_ERROR
+    except ContactInBookError:
+        return constants.CONTACT_IS_IN_BOOK
+    
         
     return message
+
 
 @input_error
 def change_contact(args, book):
     name, old_phone_number, new_phone_number, *_ = args
     record = book.find(name)
-    message = "Contact updated."
     
     if record is None:
         raise IndexError
-    if new_phone_number:
-        book[name] = new_phone_number
 
-    return message
+    try:
+        if record.find_phone(old_phone_number):
+            if Phone.validation_phone(new_phone_number):
+                record.edit_phone(old_phone_number, new_phone_number)
+            else:
+                raise ExactDigitException()
+        else:
+            raise NoSuchPhoneNumberError()
+    except NoSuchPhoneNumberError:
+        return constants.NO_PHONE_NUMBER
+    except ContactInBookError:
+        return constants.CONTACT_IS_IN_BOOK
+    except ExactDigitException:
+        return constants.DIGITS_ERROR
+    
+    return constants.CONTACT_UPDATED
 
 
 @input_error
@@ -54,7 +64,7 @@ def show_phone(args, book):
     if record.name.value != name:
         raise IndexError
     
-    return f"{record} has the following phone number: {book[name]}."
+    return f"{record.name.value} has the following phone number: {record.phones}."
 
 
 @input_error
@@ -69,10 +79,11 @@ def show_birthday(args, book):
 def birthdays(args, book):
     pass
 
+
 @input_error
 def show_all(book):
     if len(book) == 0:
-        return f"Contact list is empty"
+        print(constants.CONTACT_LIST_EMPTY)
     else:
         for _, item in book.items():
             if item:

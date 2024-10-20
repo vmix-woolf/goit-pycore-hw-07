@@ -27,14 +27,15 @@ class Record:
             index = self.phones.index(old_phone)
             self.phones[index] = new_phone
         except ValueError:
-            print(f"No a such phone")
-            exit()
-
+            return f"No a such phone"
+            
     
     def find_phone(self, phone):
-        index = self.phones.index(phone)
-        return self.phones[index]
-
+        try:
+            index = self.phones.index(phone)
+            return self.phones[index]
+        except ValueError:
+            return False
     
     def add_birthday(self, date_of_birth):
         self.birthday = Birthday(date_of_birth)

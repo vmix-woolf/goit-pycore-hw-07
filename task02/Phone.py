@@ -1,5 +1,6 @@
 from Field import Field
 from Exceptions import ExactDigitException
+import constants
 
 class Phone(Field):
     def __init__(self, value):
@@ -8,10 +9,9 @@ class Phone(Field):
     
     def validation_phone(phone_number)-> bool:
         try:
-            if len(phone_number) == 3 and phone_number.isdigit():
+            if len(phone_number) == constants.DIGITS_IN_PHONE_NUMBER and phone_number.isdigit():
                 return True
             else:
                 raise ExactDigitException()
         except ExactDigitException:
-            # print(f'Phone should consist of exactly 3 digits!')
             return False

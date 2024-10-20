@@ -1,12 +1,14 @@
+import constants
+
 def input_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            return "Enter the argument for the command."
+            return constants.VALUE_ERROR
         except KeyError:
-            return "This name is already in the contacts."
+            return constants.KEY_ERROR
         except IndexError:
-            return "This name is absent in the contacts."
+            return constants.INDEX_ERROR
 
     return inner
