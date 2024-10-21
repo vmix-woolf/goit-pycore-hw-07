@@ -143,7 +143,7 @@ def birthdays(book):
             for item in upcoming_birthdays:
                 print(f"Contact {item['name']} should be mailed {item['congratulation_date']}")
         else:
-            print(constants.NECESSARY_TO_CONGRATULATE)
+            print(constants.NO_NECESSARY_TO_CONGRATULATE)
 
 
 @input_error
