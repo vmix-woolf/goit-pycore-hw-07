@@ -10,7 +10,6 @@ from handler import (
 import constants
 from parser import parse_input
 from AddressBook import AddressBook
-from Exceptions import ExactDigitException
 
 
 def main():
@@ -27,10 +26,7 @@ def main():
         elif command == "hello":
             print("How can I help you?")
         elif command == "add":
-            try:
-                print(add_contact(args, book))
-            except ExactDigitException:
-                continue
+            print(add_contact(args, book))
         elif command == "change":
             print(change_contact(args, book))
         elif command == "phone":
@@ -42,7 +38,7 @@ def main():
         elif command == "show-birthday":
             print(show_birthday(args, book))
         elif command == "birthdays":
-            birthdays(args, book)
+            birthdays(book)
         else:
             print("Invalid command.")
 

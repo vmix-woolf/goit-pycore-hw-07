@@ -44,7 +44,6 @@ class Record:
 
     def __str__(self):
         if self.birthday is not None:
-            print(self.birthday.value)
             return f"Contact name: {self.name.value}, " + \
                 f"phones: {'; '.join(p for p in self.phones)}, " + \
                 f"birthday: {datetime.strptime(self.birthday.value, '%d.%m.%Y').strftime('%d.%m.%Y')}" 
